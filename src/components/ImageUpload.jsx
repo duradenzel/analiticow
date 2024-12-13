@@ -48,8 +48,8 @@ export default function ImageUpload() {
         .then((data) => {
           setResponseData(data)
 
-          if (data?.ocr_results && data.ocr_results.length > 0) {
-            const closestRecord = data.ocr_results.reduce((min, curr) =>
+          if (data?.results && data.results.length > 0) {
+            const closestRecord = data.results.reduce((min, curr) =>
               curr.distance < min.distance ? curr : min
             )
             const recordData = JSON.parse(closestRecord.record) 

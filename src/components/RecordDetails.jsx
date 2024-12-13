@@ -1,14 +1,14 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 // eslint-disable-next-line react/prop-types
-function RecordDetails({ record, image }) {
+function RecordDetails({record}) {
   if (!record) {
     return <p>No record data available.</p>;
   }
+  console.log(record)
 
   return (
     <Card className="w-full max-w-md mx-auto my-4">
-        <img src={image} alt="" />
       <CardContent className="p-6">
         <h2 className="text-xl font-bold mb-4">Record Details</h2>
         <ul className="space-y-2">
