@@ -1,37 +1,33 @@
 'use client'
 
-import { useState } from 'react'
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search } from 'lucide-react'
-import RecordDetails from './RecordDetails'
+import { useState } from 'react';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from 'lucide-react';
 
-export default function Searchbar() {
-  const [query, setQuery] = useState('')
-  const [responseData, setResponseData] = useState(null)
+// eslint-disable-next-line react/prop-types
+export default function Searchbar({ setResponseData }) {
+  const [query, setQuery] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // if (!query.trim()) return
+    e.preventDefault();
 
     fetch('http://127.0.0.1:8000/search/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({query}),
+      body: JSON.stringify({ query }),
     })
       .then((response) => response.json())
       .then((data) => {
-        setResponseData(data)
-        console.log(responseData)
-      
         if (data?.result && data.result.length > 0) {
-          const closestRecord = data.result[0]; 
-          const parsedRecord = JSON.parse(closestRecord.record); 
-          setResponseData(parsedRecord[0]); 
+          const closestRecord = data.result[0];
+          const parsedRecord = JSON.parse(closestRecord.record);
+          setResponseData(parsedRecord[0]);  // Update parent state
+          setQuery('');
         }
       })
-      .catch((error) => console.error('Error:', error))
-    }
+      .catch((error) => console.error('Error:', error));
+  }
 
   return (
     <>
@@ -48,10 +44,6 @@ export default function Searchbar() {
           <Search className="h-4 w-4" />
         </Button>
       </form>
-
-      {responseData && (
-        <RecordDetails record={responseData} />
-      )}
     </>
-  )
+  );
 }
