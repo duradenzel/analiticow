@@ -3,9 +3,10 @@ import { useDropzone } from 'react-dropzone'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { X, Upload } from 'lucide-react'
-import RecordDetails from './RecordDetails'
 
-export default function ImageUpload() {
+
+// eslint-disable-next-line react/prop-types
+export default function ImageUpload({setResponseData}) {
   const [image, setImage] = useState(null)
   const [file, setFile] = useState(null)
 
@@ -33,35 +34,35 @@ export default function ImageUpload() {
     setFile(null)
   }
 
-  const [responseData, setResponseData] = useState(null)
 
   const handleSubmit = () => {
     if (file) {
-      const formData = new FormData()
-      formData.append('file', file)
-
+      const formData = new FormData();
+      formData.append('file', file);
+  
       fetch('http://127.0.0.1:8000/process/', {
         method: 'POST',
         body: formData,
       })
         .then((response) => response.json())
         .then((data) => {
-          setResponseData(data)
-
-          if (data?.ocr_results && data.ocr_results.length > 0) {
-            const closestRecord = data.ocr_results.reduce((min, curr) =>
+          if (data?.results && data.results.length > 0) {
+            const closestRecord = data.results.reduce((min, curr) =>
               curr.distance < min.distance ? curr : min
-            )
-            const recordData = JSON.parse(closestRecord.record) 
-            setResponseData(recordData) 
+            );
+            const recordData = JSON.parse(closestRecord.record);
+            
+            const recordWithImage = { ...recordData[0], image: image }; 
+            setResponseData(recordWithImage);
           }
         })
-        .catch((error) => console.error('Error:', error))
-
-      setImage(null)
-      setFile(null)
+        .catch((error) => console.error('Error:', error));
+  
+      setImage(null);
+      setFile(null);
     }
-  }
+  };
+  
 
   return (
     <>
@@ -113,9 +114,7 @@ export default function ImageUpload() {
         )}
       </Card>
 
-      {responseData && Array.isArray(responseData) && responseData.length > 0 && (
-        <RecordDetails record={responseData[0]} image={image} />
-      )}
+    
     </>
   )
 }
