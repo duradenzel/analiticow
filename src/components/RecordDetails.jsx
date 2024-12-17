@@ -10,7 +10,7 @@ function RecordDetails({ record }) {
   const { Landcode, Levensnummer, Haarkleur, Geslacht, image, ...additionalDetails } = record;
 
   return (
-    <Card className="w-full max-w-sm mx-auto shadow-md border rounded-lg bg-whitemt-3">
+    <Card className="w-full max-w-sm mx-auto shadow-md border rounded-lg bg-whitemt-3 mt-5">
       <CardContent className="p-6 flex flex-col space-y-4">
         <h2 className="text-2xl font-bold text-left">
           {Landcode} {Levensnummer || "N/A"}
@@ -49,7 +49,7 @@ function RecordDetails({ record }) {
               />
             ) : (
               <div className="flex items-center justify-center w-full h-full bg-gray-100 text-gray-500 dark:text-gray-400 text-sm rounded-md">
-                No image uploaded
+                Geen afbeelding beschikbaar
               </div>
             )}
           </div>
@@ -58,7 +58,7 @@ function RecordDetails({ record }) {
         {Object.keys(additionalDetails).length > 0 && (
           <Accordion type="single" collapsible className="w-full mt-4">
             <AccordionItem value="additionalDetails">
-              <AccordionTrigger className="text-sm font-semibold">More Details</AccordionTrigger>
+              <AccordionTrigger className="text-sm font-semibold">Meer Details</AccordionTrigger>
               <AccordionContent>
                 <ul className="space-y-2">
                   {Object.entries(additionalDetails).map(([key, value]) => (
