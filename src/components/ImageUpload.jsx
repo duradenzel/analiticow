@@ -24,7 +24,8 @@ export default function ImageUpload({setResponseData}) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': []
+      'image/*': [],
+      'video/*': []
     },
     multiple: false
   })
@@ -80,27 +81,35 @@ export default function ImageUpload({setResponseData}) {
             )}
             {image ? (
               <div className="relative">
-                <img
-                  src={image}
-                  alt="Uploaded preview"
-                  className="max-w-full h-auto rounded-lg"
-                />
+                {file.type.startsWith('image/') ? (
+                  <img
+                    src={image}
+                    alt="Uploaded preview"
+                    className="max-w-full h-auto rounded-lg"
+                  />
+                ) : (
+                  <video
+                    src={image}
+                    controls
+                    className="max-w-full h-auto rounded-lg"
+                  />
+                )}
                 <Button
                   variant="destructive"
                   size="icon"
                   className="absolute top-2 right-2"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    removeImage()
+                    e.stopPropagation();
+                    removeImage();
                   }}
-                  aria-label="Remove image"
+                  aria-label="Remove file"
                 >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
               <p className="text-gray-500 relative z-10">
-                Sleep een afbeelding, of klik om een bestand te selecteren
+                Sleep een afbeelding of video, of klik om een bestand te selecteren
               </p>
             )}
           </div>
