@@ -48,6 +48,7 @@ export default function ImageUpload({setResponseData}) {
         .then((response) => response.json())
         .then((data) => {
           if (data?.results && data.results.length > 0) {
+            console.log(data)
             const closestRecord = data.results.reduce((min, curr) =>
               curr.distance < min.distance ? curr : min
             );
