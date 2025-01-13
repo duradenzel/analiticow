@@ -27,7 +27,7 @@ const HomePage = () => {
       </main>
 
       {/* Render RecordDetails only once in the parent */}
-      {responseData && <RecordDetails record={responseData} />}
+      {responseData && <RecordDetails records={responseData} />}
     </div>
   );
 };
