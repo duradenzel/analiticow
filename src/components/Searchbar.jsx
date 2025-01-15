@@ -21,8 +21,7 @@ export default function Searchbar({ setResponseData }) {
       .then((data) => {
         if (data?.result && data.result.length > 0) {
           const closestRecord = data.result[0];
-          const parsedRecord = JSON.parse(closestRecord.record);
-          setResponseData(parsedRecord[0]);  // Update parent state
+          setResponseData([closestRecord]);
           setQuery('');
         }
       })
